@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:note_cubit_grid/screens/add&update_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,26 +51,34 @@ class _MyHomePageState extends State<MyHomePage> {
           itemBuilder: (ctx, index) {
             return GridTile(
               child: InkWell(
-                onTap: (){},
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (ctx) => AddUpdatePage()),
+                  );
+                },
                 child: Container(
-                 decoration: BoxDecoration(
-                   borderRadius: BorderRadius.circular(5),
-                   border: BoxBorder.all(color: Colors.black),
-                   color: Colors
-                     .primaries[random.nextInt(Colors.primaries.length)]
-                  .shade300,
-                 ),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    border: BoxBorder.all(color: Colors.black),
+                    color: Colors
+                        .primaries[random.nextInt(Colors.primaries.length)]
+                        .shade300,
+                  ),
                   child: Stack(
                     children: [
+                      Align(alignment: Alignment.center, child: Text("Title")),
                       Align(
-                        alignment: Alignment.center,
-                          child: Text("Title")),
+                        alignment: Alignment.bottomCenter,
+                        child: Text("Time"),
+                      ),
                       Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Text("Time")),
-                      Align(
-                          alignment: Alignment.topRight,
-                          child: IconButton(onPressed: (){}, icon: Icon(Icons.delete,size: 18,color: Colors.red,))),
+                        alignment: Alignment.topRight,
+                        child: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.delete, size: 18, color: Colors.red),
+                        ),
+                      ),
                     ],
                   ),
                 ),
