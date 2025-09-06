@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_cubit_grid/onboarding/singup.dart';
 
 class LoginPage extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -40,6 +41,21 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           ElevatedButton(onPressed: () {}, child: Text("Login")),
+          SizedBox.square(dimension: 10),
+          Text("New User?"),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (ctx) {
+                    return SignUpPage();
+                  },
+                ),
+              );
+            },
+            child: Text("Sign"),
+          ),
         ],
       ),
     );

@@ -103,16 +103,6 @@ class AppDataBase {
   /// Authentication Operation
 
   // Login Operations
-  Future<bool> checkUserExisted(String email) async {
-    var db = await getDB();
-    var data = await db.query(
-      userTable,
-      where: "$userEmail = ?",
-      whereArgs: [email],
-    );
-    return data.isNotEmpty;
-  }
-
   Future<bool> authenticateUser(String email, String password) async {
     var db = await getDB();
     var data = await db.query(
@@ -131,6 +121,16 @@ class AppDataBase {
   }
 
   // SignUp Operation
+  Future<bool> checkUserExisted(String email) async {
+    var db = await getDB();
+    var data = await db.query(
+      userTable,
+      where: "$userEmail = ?",
+      whereArgs: [email],
+    );
+    return data.isNotEmpty;
+  }
+
   Future<bool> createUser(UserModel newUser) async {
     var check = await checkUserExisted(newUser.user_email);
     if (!check) {
