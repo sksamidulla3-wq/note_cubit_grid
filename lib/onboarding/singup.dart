@@ -13,94 +13,101 @@ class SignUpPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("Login Page")),
-      body: Column(
-        children: [
-          Text("Welcome Again"),
-          TextField(
-            controller: nameController,
-            decoration: InputDecoration(
-              hintText: "User Name",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
-              ),
-            ),
-          ),
-          TextField(
-            controller: emailController,
-            decoration: InputDecoration(
-              hintText: "Email",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Text("Welcome Again"),
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(
+                hintText: "User Name",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
               ),
             ),
-          ),
-          TextField(
-            controller: passwordController,
-            decoration: InputDecoration(
-              hintText: "Password",
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide(color: Colors.pink),
+            SizedBox.square(dimension: 10),
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                hintText: "Email",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
               ),
             ),
-          ),
-          ElevatedButton(
-            onPressed: () async {
-              if (emailController.text.isNotEmpty &&
-                  passwordController.text.isNotEmpty) {
-                var check = await context
-                    .read<NotecubitCubit>()
-                    .appDataBase
-                    .checkUserExisted(emailController.text);
-                if (check) {
-                  context.read<NotecubitCubit>().appDataBase.createUser(
-                    UserModel(
-                      user_name: nameController.text,
-                      user_email: emailController.text,
-                      user_password: passwordController.text,
-                      user_id: 0,
-                    ),
-                  );
+            SizedBox.square(dimension: 10),
+            TextField(
+              controller: passwordController,
+              decoration: InputDecoration(
+                hintText: "Password",
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.pink),
+                ),
+              ),
+            ),
+            SizedBox.square(dimension: 10),
+            ElevatedButton(
+              onPressed: () async {
+                if (emailController.text.isNotEmpty &&
+                    passwordController.text.isNotEmpty) {
+                  var check = await context
+                      .read<NotecubitCubit>()
+                      .appDataBase
+                      .checkUserExisted(emailController.text);
+                  if (!check) {
+                    context.read<NotecubitCubit>().appDataBase.createUser(
+                      UserModel(
+                        user_name: nameController.text,
+                        user_email: emailController.text,
+                        user_password: passwordController.text,
+                        user_id: 0,
+                      ),
+                    );
+                    Navigator.push(context, MaterialPageRoute(builder: (ctx)=> LoginPage()));
+                  } else {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text("User Already existed")),
+                    );
+                  }
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text("User Already existed")),
-                  );
+                  ScaffoldMessenger.of(
+                    context,
+                  ).showSnackBar(SnackBar(content: Text("fill all the details")));
                 }
-              } else {
-                ScaffoldMessenger.of(
+              },
+              child: Text("SignUp"),
+            ),
+            SizedBox(height: 10),
+            Text("Already Have Account?"),
+            SizedBox(height: 10),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
                   context,
-                ).showSnackBar(SnackBar(content: Text("fill all the details")));
-              }
-            },
-            child: Text("SignUp"),
-          ),
-          SizedBox(height: 10),
-          Text("Already Have Account?"),
-          SizedBox(height: 10),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => LoginPage()),
-              );
-            },
-            child: Text("Login"),
-          ),
-        ],
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+              child: Text("Login"),
+            ),
+          ],
+        ),
       ),
     );
   }

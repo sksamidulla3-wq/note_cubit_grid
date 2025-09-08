@@ -85,7 +85,7 @@ class AppDataBase {
   }
 
   Future<List<NoteModel>> fetchNotes() async {
-    var uid = getUID();
+    var uid = await getUID();
     var db = await getDB();
     List<NoteModel> arrNotes = [];
     var data = await db.query(
@@ -107,7 +107,7 @@ class AppDataBase {
     var db = await getDB();
     var data = await db.query(
       userTable,
-      where: "$userEmail and $userPassword = ?",
+      where: "$userEmail = ? and $userPassword = ?",
       whereArgs: [email, password],
     );
 
@@ -154,5 +154,11 @@ class AppDataBase {
     var prefs = await SharedPreferences.getInstance();
     var userName = prefs.getString(uName);
     return userName ?? "";
+  }
+
+
+  Future<void> loggedOut() async {
+    var prefs = await SharedPreferences.getInstance();
+    prefs.setBool(login, false);
   }
 }
